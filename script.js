@@ -7,9 +7,9 @@ const CONFIG = {
   showTestimonials: false,                 // set to true once you have real client testimonials
   keabUrl: "",                             // replace with the Keab Digital Solution page address
   links: {                                 // add your profile addresses; empty ones are hidden
-    github: "https://github.com/eyerusalemaklilu",  // your personal GitHub profile address
-    linkedin: "https://www.linkedin.com/in/eyerusalem-aklilu-37854525b/",   // paste your LinkedIn profile address here (until then the icon opens linkedin.com)
-    telegram: "@Bisratemelak19"
+    github: "https://github.com/eyerusalemaklilu",
+    linkedin: "https://www.linkedin.com/in/eyerusalem-aklilu-37854525b/",
+    telegram: "https://t.me/Bisratemelak19"
   },
   media: { hero: "", about: "" }     // optional here; the same photos are set in IMAGES below
 };
@@ -210,7 +210,8 @@ const SVC_ICON = ["layers","window","database","tasks"];
 $("#svc").innerHTML = PROJECTS.map((p, i) => `<a class="svc-card" href="#project-${i+1}"><span class="svc-ic">${ICON[SVC_ICON[i]]}</span><h3>${esc(p.svcTitle||p.title)}</h3><p>${esc(p.svcBlurb||p.blurb)}</p><span class="more">Learn more</span></a>`).join("");
 $("#abStats").innerHTML = [[PROJECTS.length,"Live projects"],["1+","Year of experience"],["BSc","Electrical & Computer Eng."]].map(([n,l]) => `<div class="stat"><b>${n}</b><span>${l}</span></div>`).join("");
 if (CONFIG.media.about || CONFIG.media.hero) $("#abCircle").innerHTML = `<img loading="lazy" decoding="async" src="${esc(CONFIG.media.about || CONFIG.media.hero)}" alt="Portrait of Eyerusalem Aklilu">`;
-
+const fixUrl = u => !u ? u : /^@/.test(u) ? "https://t.me/" + u.slice(1) : /^(https?:|tel:|mailto:)/i.test(u) ? u : "https://" + u.replace(/^\/+/, "");
+["github","linkedin","telegram"].forEach(k => { CONFIG.links[k] = fixUrl(CONFIG.links[k]); });
 const SOC = [["GitHub","github",CONFIG.links.github],["LinkedIn","linkedin",CONFIG.links.linkedin || "https://www.linkedin.com/"],["Gmail","gmail",gmailUrl("Website project")],["Phone","phone","tel:" + CONFIG.phone.replace(/\s/g,"")],["Telegram","telegram",CONFIG.links.telegram]].filter(x => x[2]);
 $("#socials").innerHTML = SOC.map(([n,i,h]) => `<a class="soc" href="${esc(h)}"${/^https?:/.test(h) ? ' target="_blank" rel="noopener"' : ""} title="${n}" aria-label="${n}">${ICON[i]}<span>${n}</span></a>`).join("");
 $$("[data-email]").forEach(el => el.textContent = CONFIG.email);

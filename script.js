@@ -154,7 +154,7 @@ const TESTIMONIALS = [
 /* ============ END EDIT ============ */
 
 /* Link each image slot to its place on the page */
-const IMG = k => IMAGES[k] || "";
+const IMG = k => (IMAGES[k] || "").replace(/^images\//, "");
 CONFIG.media.hero = CONFIG.media.hero || IMG("hero-photo");
 CONFIG.media.about = CONFIG.media.about || IMG("about-photo");
 TESTIMONIALS.forEach((t, i) => { t.photo = t.photo || IMG("testimonial-" + (i + 1)); });

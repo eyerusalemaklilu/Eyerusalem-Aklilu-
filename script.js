@@ -153,7 +153,8 @@ const TESTIMONIALS = [
 
 /* ============ END EDIT ============ */
 
-/* Link each image slot to its place on the page */
+/* Link each image slot to its place on the page.
+   The images are in the same folder as index.html, so the "images/" part of each path is removed here. */
 const IMG = k => (IMAGES[k] || "").replace(/^images\//, "");
 CONFIG.media.hero = CONFIG.media.hero || IMG("hero-photo");
 CONFIG.media.about = CONFIG.media.about || IMG("about-photo");
@@ -188,7 +189,13 @@ const ICON = {
   sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>',
   moon:'<path d="M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5z"/>'
 };
-const gmailUrl = (su="", body="") => "https://mail.google.com/mail/?view=cm&fs=1&to=" + encodeURIComponent(CONFIG.email) + (su ? "&su=" + encodeURIComponent(su) : "") + (body ? "&body=" + encodeURIComponent(body) : "");
+
+/* Every Gmail button opens a Google Gmail compose window addressed to CONFIG.email.
+   It is a web address on mail.google.com, never a mailto: link, so the phone's default mail app is not used. */
+const gmailUrl = (su="", body="") =>
+  "https://mail.google.com/mail/?view=cm&fs=1&tf=1&to=" + encodeURIComponent(CONFIG.email) +
+  (su ? "&su=" + encodeURIComponent(su) : "") +
+  (body ? "&body=" + encodeURIComponent(body) : "");
 
 const root = document.documentElement;
 
@@ -208,7 +215,7 @@ const SOC = [["GitHub","github",CONFIG.links.github],["LinkedIn","linkedin",CONF
 $("#socials").innerHTML = SOC.map(([n,i,h]) => `<a class="soc" href="${esc(h)}"${/^https?:/.test(h) ? ' target="_blank" rel="noopener"' : ""} title="${n}" aria-label="${n}">${ICON[i]}<span>${n}</span></a>`).join("");
 $$("[data-email]").forEach(el => el.textContent = CONFIG.email);
 $$("[data-phone]").forEach(el => { el.href = "tel:" + CONFIG.phone.replace(/\s/g,""); el.textContent = CONFIG.phone; });
-$$("[data-gmail]").forEach(el => el.href = gmailUrl("Website project"));
+$$("[data-gmail]").forEach(el => { el.href = gmailUrl("Website project"); el.target = "_blank"; el.rel = "noopener"; });
 const keab = $("#keabLink");
 if (CONFIG.keabUrl) keab.href = CONFIG.keabUrl; else keab.replaceWith(document.createTextNode(keab.textContent));
 
@@ -301,7 +308,7 @@ $("#tStage").addEventListener("touchstart", e => { sx = e.touches[0].clientX; },
 $("#tStage").addEventListener("touchend", e => { if (sx === null) return; const dx = e.changedTouches[0].clientX - sx; sx = null; if (Math.abs(dx) > 45) tStep(dx < 0 ? 1 : -1); });
 paintT();
 
-/* ---------- Header menu + Gmail popover ---------- */
+/* ---------- Header menu ---------- */
 const nav = $("#nav"), burger = $("#burger");
 burger.addEventListener("click", () => { const o = nav.classList.toggle("open"); burger.setAttribute("aria-expanded", o); });
 nav.addEventListener("click", e => { if (e.target.closest("a")) { nav.classList.remove("open"); burger.setAttribute("aria-expanded","false"); } });

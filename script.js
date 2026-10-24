@@ -8,8 +8,8 @@ const CONFIG = {
   keabUrl: "",                             // replace with the Keab Digital Solution page address
   links: {                                 // add your profile addresses; empty ones are hidden
     github: "https://github.com/eyerusalemaklilu",  // your personal GitHub profile address
-    linkedin: "",   // paste your LinkedIn profile address here (until then the icon opens linkedin.com)
-    telegram: ""
+    linkedin: "https://www.linkedin.com/in/eyerusalem-aklilu-37854525b/",   // paste your LinkedIn profile address here (until then the icon opens linkedin.com)
+    telegram: "@Bisratemelak19"
   },
   media: { hero: "", about: "" }     // optional here; the same photos are set in IMAGES below
 };
